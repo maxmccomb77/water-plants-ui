@@ -8,7 +8,6 @@ function App() {
   const [wateringData, setWateringData] = useState([]);
   const [processing, setProcessing] = useState(false);
 
-  const [apiHealth, setAPIHealth] = useState('');
 
 useEffect(() => {
   fetchWateringData();
@@ -58,13 +57,17 @@ const handleWaterNowButton = () => {
 
   });
 
+  const piHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "*"
+  }
 
-  axios.get('https://75figsak85.execute-api.us-east-1.amazonaws.com/deploy/waternow', headers)
+  axios.get('http://192.168.0.158:8080/runWateringScript', piHeaders)
   .then(response => {
     console.log(response);
   })
   .catch(error => {
-      console.error('There was an error with the lambda call!', error);
+      console.error('There was an error with the Pi call!', error);
       setProcessing(false);
   });
   
